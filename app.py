@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pydantic import BaseModel
 import re
+import os
 from google.generativeai import configure, GenerativeModel
 import google.generativeai as genai
 
