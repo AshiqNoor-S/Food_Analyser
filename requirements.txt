@@ -1,7 +1,7 @@
-Flask==2.3.2
-Flask-Cors==3.1.0
-pydantic==1.10.8
-beautifulsoup4==4.12.2
-requests==2.31.0
-google-generativeai==0.1.0
+Flask
+Flask-Cors
+pydantic
+beautifulsoup4
+requests
+google-generativeai
 gunicorn
