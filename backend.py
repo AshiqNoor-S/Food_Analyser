@@ -98,7 +98,7 @@ def flipkart_scraper(url):
 
 
 # Set up Google Gemini API
-GOOGLE_API_KEY = "AIzaSyBarikfaGXxnyR8J3XaSUUyW9bOm8a1rlU"
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 if not GOOGLE_API_KEY:
     raise Exception("Google API Key is missing. Please set the GOOGLE_API_KEY environment variable.")
 
