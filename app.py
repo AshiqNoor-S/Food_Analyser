@@ -11,17 +11,24 @@ import google.generativeai as genai
 app = Flask(__name__)
 CORS(app)
 
-# Set headers to mimic a browser request
+import random
+
+user_agents = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+]
+
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'User-Agent': random.choice(user_agents),
     'Accept-Language': 'en-US,en;q=0.9',
 }
-
 # Amazon scraper function
 def amazon_scraper(url):
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         html_text = response.text
+        print(html_text)
         soup = BeautifulSoup(html_text, 'lxml')
 
         product_name = soup.find('span', {'id': 'productTitle'}).get_text(strip=True)
@@ -99,7 +106,7 @@ def flipkart_scraper(url):
 
 
 # Set up Google Gemini API
-GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+GOOGLE_API_KEY = 'AIzaSyBarikfaGXxnyR8J3XaSUUyW9bOm8a1rlU'
 if not GOOGLE_API_KEY:
     raise Exception("Google API Key is missing. Please set the GOOGLE_API_KEY environment variable.")
 
