@@ -3,6 +3,6 @@ Flask-Cors
 pydantic
 beautifulsoup4
 requests
-python-dotenv==1.0.1
+python-dotenv
 google-generativeai
 Gunicorn
