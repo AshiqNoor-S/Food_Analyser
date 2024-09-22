@@ -5,4 +5,4 @@ beautifulsoup4
 requests
 python-dotenv==1.0.1
 google-generativeai
-gunicorn
+Gunicorn
