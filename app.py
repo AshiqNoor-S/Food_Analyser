@@ -3,6 +3,7 @@ import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pydantic import BaseModel
+from scrapingbee import ScrapingBeeClient
 import re
 import os
 from google.generativeai import configure, GenerativeModel
@@ -11,21 +12,13 @@ import google.generativeai as genai
 app = Flask(__name__)
 CORS(app)
 
-import random
+# ScrapingBee client setup
+SCRAPINGBEE_API_KEY = os.environ.get('SCRAPINGBEE_API_KEY')  # Set your ScrapingBee API key
+scrapingbee_client = ScrapingBeeClient(api_key=SCRAPINGBEE_API_KEY)
 
-user_agents = [
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-]
-
-headers = {
-    'User-Agent': random.choice(user_agents),
-    'Accept-Language': 'en-US,en;q=0.9',
-}
 # Amazon scraper function
 def amazon_scraper(url):
-    response = requests.get(url, headers=headers)
+    response = scrapingbee_client.get(url, params={'render_js': 'true'})
     if response.status_code == 200:
         html_text = response.text
         print(html_text)
@@ -53,7 +46,7 @@ def amazon_scraper(url):
 
 # Flipkart scraper function
 def flipkart_scraper(url):
-    response = requests.get(url, headers=headers)
+    response = scrapingbee_client.get(url, params={'render_js': 'true'})
 
     if response.status_code == 200:
         html_text = response.text
@@ -106,7 +99,7 @@ def flipkart_scraper(url):
 
 
 # Set up Google Gemini API
-GOOGLE_API_KEY = 'AIzaSyBarikfaGXxnyR8J3XaSUUyW9bOm8a1rlU'
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 if not GOOGLE_API_KEY:
     raise Exception("Google API Key is missing. Please set the GOOGLE_API_KEY environment variable.")
 
